@@ -11,11 +11,11 @@ class UnitIzm(models.Model):
     short_title = models.CharField(max_length=5)
 
     def __str__(self):
-        return self.short_title
+         return self.short_title
 
     class Meta:
-        verbose_name = 'Единица измерения'
-        verbose_name_plural = 'Единицы измерения'
+         verbose_name = 'Единица измерения'
+         verbose_name_plural = 'Единицы измерения'
 
 
 # Организации
@@ -28,63 +28,70 @@ class Companies(models.Model):
     inn = models.CharField(max_length=12)
     address = models.CharField(max_length=250)
 
+    def __str__(self):
+         return self.title
 
-# Контрагенты
-class Partners(models.Model):
-    """
-    Описание контрагентов
-    """
-    title = models.CharField(max_length=150)
-    short_title = models.CharField(max_length=30)
-    inn = models.CharField(max_length=12)
-    address = models.CharField(max_length=250)
-    comment = models.TextField()
+    class Meta:
+         verbose_name = 'Организации'
+         verbose_name_plural = 'Организации'
 
 
-#Договоры
-class Offers(models.Model):
-    title = models.CharField(max_length=150)
-    company = models.ForeignKey(Companies, on_delete=models.PROTECT, related_name='company')
-    partner = models.ForeignKey(Partners, on_delete=models.PROTECT, related_name='partner')
-    date = models.DateTimeField()
-    number = models.CharField(max_length=10)
-
-
-
-# Товары
-class Goods(models.Model):
-    """
-    Описание номенклатуры
-    """
-    title = models.CharField(max_length=150)
-    short_title = models.CharField(max_length=30)
-    unit_izm = models.ForeignKey(UnitIzm, on_delete=models.PROTECT, related_name='unitizm')
-    photo = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-
-
-
-# Банки
-class Banks(models.Model):
-    """
-    Справочник банки
-    """
-    title = models.CharField(max_length=150)
-    short_title = models.CharField(max_length=30)
-    bik = models.CharField(max_length=9)
-    korr = models.CharField(max_length=30)
-
-
-#Банковские счета
-class
-    """
-    Справочник банковские счета
-    """
-    title = models.CharField(max_length=150)
-    number = models.CharField(max_length=30)
-    bank = models.ForeignKey(Banks, on_delete=models.PROTECT, related_name='banks')
-    company = models.ForeignKey(Companies, on_delete=models.PROTECT, related_name='companies')
-    partner = models.ForeignKey(Partners, on_delete=models.PROTECT, related_name='partner')
-
+# # Контрагенты
+# class Partners(models.Model):
+#     """
+#     Описание контрагентов
+#     """
+#     title = models.CharField(max_length=150)
+#     short_title = models.CharField(max_length=30)
+#     inn = models.CharField(max_length=12)
+#     address = models.CharField(max_length=250)
+#     comment = models.TextField()
+#
+#
+# #Договоры
+# class Orders(models.Model):
+#     title = models.CharField(max_length=150)
+#     company = models.ForeignKey(Companies, on_delete=models.PROTECT)
+#     partner = models.ForeignKey(Partners, on_delete=models.PROTECT)
+#     date = models.DateTimeField()
+#     number = models.CharField(max_length=10)
+#
+#
+#
+# # Товары
+# class Goods(models.Model):
+#     """
+#     Описание номенклатуры
+#     """
+#     title = models.CharField(max_length=150)
+#     short_title = models.CharField(max_length=30)
+#     unit_izm = models.ForeignKey(UnitIzm, on_delete=models.PROTECT)
+#     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
+#
+#
+#
+# # Банки
+# class Banks(models.Model):
+#     """
+#     Справочник банки
+#     """
+#     title = models.CharField(max_length=150)
+#     short_title = models.CharField(max_length=30)
+#     bik = models.CharField(max_length=9)
+#     korr = models.CharField(max_length=30)
+#
+#
+# #Банковские счета
+# class BankAccount(models.Model):
+#     """
+#     Справочник банковские счета
+#     """
+#     title = models.CharField(max_length=150)
+#     number = models.CharField(max_length=30)
+#     bank = models.ForeignKey(Banks, on_delete=models.PROTECT)
+#     company = models.ForeignKey(Companies, on_delete=models.PROTECT)
+#     partner = models.ForeignKey(Partners, on_delete=models.PROTECT)
+#
 
 # Документ Поступление товаров
 #class BuyProducts(models.Model):
