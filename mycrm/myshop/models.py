@@ -18,25 +18,60 @@ class UnitIzm(models.Model):
         verbose_name_plural = 'Единицы измерения'
 
 
+# Организации
+class Companies(models.Model):
+    """
+    Описание наших организаций
+    """
+    title = models.CharField(max_length=150)
+    short_title = models.CharField(max_length=30)
+    inn = models.CharField(max_length=12)
+    address = models.CharField(max_length=250)
+
+
 # Контрагенты
 class Partners(models.Model):
     """
     Описание контрагентов
     """
+    title = models.CharField(max_length=150)
+    short_title = models.CharField(max_length=30)
+    inn = models.CharField(max_length=12)
+    address = models.CharField(max_length=250)
+    comment = models.TextField()
+
+
+#Договоры
+class Offers(models.Model):
+    title = models.CharField(max_length=150)
+    company = models.ForeignKey(Companies, on_delete=models.PROTECT, related_name='company')
+    partner = models.ForeignKey(Partners, on_delete=models.PROTECT, related_name='partner')
+    date = models.DateTimeField()
+    number = models.CharField(max_length=10)
+
 
 
 # Товары
-class Products(models.Model):
+class Goods(models.Model):
     """
     Описание номенклатуры
     """
+    title = models.CharField(max_length=150)
+    short_title = models.CharField(max_length=30)
+    unit_izm = models.ForeignKey(UnitIzm, on_delete=models.PROTECT, related_name='unitizm')
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
+
 
 
 # Банки
 class Banks(models.Model):
     """
-    Справочник банковские счета
+    Справочник банки
     """
+    title = models.CharField(max_length=150)
+    short_title = models.CharField(max_length=30)
+    bik = models.CharField(max_length=9)
+    korr = models.CharField(max_length=30)
 
 
 #Банковские счета
@@ -44,52 +79,57 @@ class
     """
     Справочник банковские счета
     """
+    title = models.CharField(max_length=150)
+    number = models.CharField(max_length=30)
+    bank = models.ForeignKey(Banks, on_delete=models.PROTECT, related_name='banks')
+    company = models.ForeignKey(Companies, on_delete=models.PROTECT, related_name='companies')
+    partner = models.ForeignKey(Partners, on_delete=models.PROTECT, related_name='partner')
 
 
 # Документ Поступление товаров
-class BuyProducts(models.Model):
+#class BuyProducts(models.Model):
     """
     Документ покупки товаров
     """
 
 
 # Продажа товаров
-class SellProducts(models.Model):
+#class SellProducts(models.Model):
     """
     Документ продажи товаров
     """
 
 
 # Расход денег
-class BankPay(models.Model):
+#class BankPay(models.Model):
     """
     Документ расхода с банковского счета
     """
 
 
 # Поступление денег
-class BankFromClient(models.Model):
+#class BankFromClient(models.Model):
     """
     Документ поступления денег на банковский счет
     """
 
 
 # Взаиморасчеты с контрагентами
-class MutualSettlements(models.Model):
+#class MutualSettlements(models.Model):
     """
     Регистр взаиморасчетов с контрагентами
     """
 
 
 # Остатки товаров
-class RemainingGoods(models.Model):
+#class RemainingGoods(models.Model):
     """
     Регистр остатков товаров
     """
 
 
 # Выручка
-class Revenue(models.Model):
+#class Revenue(models.Model):
     """
     Регистр выручки от продажи
     """
