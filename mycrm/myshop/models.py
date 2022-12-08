@@ -130,10 +130,48 @@ class BankAccount(models.Model):
 
 
 # Документ Поступление товаров
-#class BuyProducts(models.Model):
+class BuyProducts(models.Model):
     """
     Документ покупки товаров
     """
+    title = models.CharField(max_length=150, blank=True)
+    number = models.CharField(max_length=30)
+    date = models.DateTimeField()
+    company = models.ForeignKey(Companies, on_delete=models.PROTECT, blank=True)
+    partner = models.ForeignKey(Partners, on_delete=models.PROTECT, blank=True)
+
+    def __str__(self):
+         return f"{self.title} {self.number} {self.date} {self.partner}"
+
+    class Meta:
+         verbose_name = 'Поступления товаров'
+         verbose_name_plural = 'Поступление товаров'
+
+
+# Строки табличцы товара документа покупки товаров
+class TableOfBuyProducts(models.Model):
+    """
+    строки табличной части товары документа покупки
+    """
+    doc = models.ForeignKey(BuyProducts, on_delete=models.CASCADE)
+    prod = models.ForeignKey(Goods, on_delete=models.CASCADE)
+    unizm = models.ForeignKey(UnitIzm, on_delete=models.CASCADE)
+    count = models.FloatField()
+    price = models.FloatField()
+    summa = models.FloatField()
+
+
+# Остатки товаров
+class RemainingGoods(models.Model):
+    """
+    Регистр остатков товаров
+    """
+    date = models.DateTimeField()
+    prod = models.ForeignKey(Goods, on_delete=models.CASCADE)
+    unizm = models.ForeignKey(UnitIzm, on_delete=models.CASCADE)
+    count = models.FloatField()
+    doc = models.ForeignKey(BuyProducts, on_delete=models.CASCADE)
+    
 
 
 # Продажа товаров
@@ -161,13 +199,6 @@ class BankAccount(models.Model):
 #class MutualSettlements(models.Model):
     """
     Регистр взаиморасчетов с контрагентами
-    """
-
-
-# Остатки товаров
-#class RemainingGoods(models.Model):
-    """
-    Регистр остатков товаров
     """
 
 
